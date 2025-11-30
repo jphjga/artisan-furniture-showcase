@@ -32,11 +32,6 @@ const Navigation = () => {
                 {link.name}
               </Link>
             ))}
-            <Link to="/admin">
-              <Button variant="outline" size="sm">
-                Admin
-              </Button>
-            </Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -67,11 +62,6 @@ const Navigation = () => {
                   {link.name}
                 </Link>
               ))}
-              <Link to="/admin" onClick={() => setIsOpen(false)}>
-                <Button variant="outline" size="sm" className="w-full">
-                  Admin
-                </Button>
-              </Link>
             </div>
           </div>
         )}
