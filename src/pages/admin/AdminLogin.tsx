@@ -13,6 +13,7 @@ const AdminLogin = () => {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [loginMethod, setLoginMethod] = useState<"email" | "phone">("email");
+  const [isSignUp, setIsSignUp] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     phone: "",
@@ -26,19 +27,41 @@ const AdminLogin = () => {
     setIsLoading(true);
 
     try {
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email: formData.email,
-        password: formData.password,
-      });
+      if (isSignUp) {
+        // Sign up flow
+        const { data, error } = await supabase.auth.signUp({
+          email: formData.email,
+          password: formData.password,
+          options: {
+            emailRedirectTo: `${window.location.origin}/admin/dashboard`,
+          },
+        });
 
-      if (error) throw error;
+        if (error) throw error;
 
-      if (data.user) {
-        await checkAdminRole(data.user.id);
+        if (data.user) {
+          toast({
+            title: "Account created!",
+            description: "You can now log in with your credentials.",
+          });
+          setIsSignUp(false);
+        }
+      } else {
+        // Login flow
+        const { data, error } = await supabase.auth.signInWithPassword({
+          email: formData.email,
+          password: formData.password,
+        });
+
+        if (error) throw error;
+
+        if (data.user) {
+          await checkAdminRole(data.user.id);
+        }
       }
     } catch (error: any) {
       toast({
-        title: "Login failed",
+        title: isSignUp ? "Signup failed" : "Login failed",
         description: error.message,
         variant: "destructive",
       });
@@ -176,6 +199,7 @@ const AdminLogin = () => {
                     placeholder="••••••••"
                     disabled={isLoading}
                     className="mt-2"
+                    minLength={6}
                   />
                 </div>
 
@@ -183,12 +207,22 @@ const AdminLogin = () => {
                   {isLoading ? (
                     <>
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Signing in...
+                      {isSignUp ? "Creating account..." : "Signing in..."}
                     </>
                   ) : (
-                    "Sign In"
+                    isSignUp ? "Create Account" : "Sign In"
                   )}
                 </Button>
+
+                <div className="text-center">
+                  <button
+                    type="button"
+                    onClick={() => setIsSignUp(!isSignUp)}
+                    className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                  >
+                    {isSignUp ? "Already have an account? Sign in" : "Need an account? Sign up"}
+                  </button>
+                </div>
               </form>
             </TabsContent>
 
