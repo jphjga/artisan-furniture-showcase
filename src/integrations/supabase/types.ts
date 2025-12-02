@@ -14,6 +14,54 @@ export type Database = {
   }
   public: {
     Tables: {
+      contact_info: {
+        Row: {
+          address: string | null
+          city: string | null
+          country: string | null
+          created_at: string
+          email: string | null
+          id: string
+          map_lat: number | null
+          map_lng: number | null
+          phone: string | null
+          social_links: Json | null
+          updated_at: string
+          whatsapp: string | null
+          working_hours: Json | null
+        }
+        Insert: {
+          address?: string | null
+          city?: string | null
+          country?: string | null
+          created_at?: string
+          email?: string | null
+          id?: string
+          map_lat?: number | null
+          map_lng?: number | null
+          phone?: string | null
+          social_links?: Json | null
+          updated_at?: string
+          whatsapp?: string | null
+          working_hours?: Json | null
+        }
+        Update: {
+          address?: string | null
+          city?: string | null
+          country?: string | null
+          created_at?: string
+          email?: string | null
+          id?: string
+          map_lat?: number | null
+          map_lng?: number | null
+          phone?: string | null
+          social_links?: Json | null
+          updated_at?: string
+          whatsapp?: string | null
+          working_hours?: Json | null
+        }
+        Relationships: []
+      }
       products: {
         Row: {
           category: string
@@ -74,6 +122,36 @@ export type Database = {
           email?: string
           full_name?: string | null
           id?: string
+        }
+        Relationships: []
+      }
+      site_content: {
+        Row: {
+          content: string | null
+          created_at: string
+          id: string
+          metadata: Json | null
+          section: string
+          title: string | null
+          updated_at: string
+        }
+        Insert: {
+          content?: string | null
+          created_at?: string
+          id?: string
+          metadata?: Json | null
+          section: string
+          title?: string | null
+          updated_at?: string
+        }
+        Update: {
+          content?: string | null
+          created_at?: string
+          id?: string
+          metadata?: Json | null
+          section?: string
+          title?: string | null
+          updated_at?: string
         }
         Relationships: []
       }
